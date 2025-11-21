@@ -159,7 +159,7 @@ public class Main {
         Siswa siswa = findSiswaById(trx.getIdSiswa());
         Kelas kelas = findKelasByKode(trx.getKodeKelas());
 
-        System.out.println("─── DETAIL TAGIHAN ───");
+        System.out.println("─── Detail Tagihan ───");
         System.out.println("ID Transaksi: " + trx.getIdTransaksi());
         System.out.println("Siswa       : " + (siswa != null ? siswa.getnamaSiswa() : "N/A"));
         System.out.println("Kelas       : " + (kelas != null ? kelas.getnamaKelas() : "N/A"));
