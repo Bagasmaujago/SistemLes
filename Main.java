@@ -1,12 +1,14 @@
-import java.util.Scanner;
-import java.util.InputMismatchException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Main {
     static ArrayList<Kelas> daftarKelasTersedia = new ArrayList<>();
     static ArrayList<Siswa> daftarSiswa = new ArrayList<>();
     static ArrayList<Transaksi> riwayatTransaksi = new ArrayList<>();
+    static ArrayList<Kelas> daftarSemuaKelas = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
+    
 
     public static void main(String[] args) {
         dataDummy();
@@ -24,14 +26,16 @@ public class Main {
             System.out.println("5. Cek Riwayat Transaksi");
             System.out.println("6. Lihat Daftar Semua Siswa");
             System.out.println("7. Lihat Daftar Siswa Perkelas");
-            System.out.println("8. Keluar Progam");
-            System.out.print("Pilih Menu 1-8!: ");
+            System.out.println("8. Tambah Kelas Baru");
+            System.out.println("9. Nonaktifkan Kelas");
+            System.out.println("10. Keluar");
+            System.out.print("Pilih Menu 1-10!: ");
 
             // Mengatasi jika menginput bukan angka
             try {
                 pilihan = scanner.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("Input Tidak Valid Masukkan Angka 1-8!");
+                System.out.println("Input Tidak Valid Masukkan Angka 1-10!");
                 pilihan = 0;
             } finally {
                 scanner.nextLine();
@@ -46,15 +50,17 @@ public class Main {
                 case 5 -> lihatRiwayatTransaksi();
                 case 6 -> lihatDaftarSemuaSiswa();
                 case 7 -> lihatDaftarSiswaPerKelas();
-                case 8 -> System.out.println("\nTerima kasih telah menggunakan sistem ini. Sampai jumpa!");
+                case 8 -> tambahKelasBaru();
+                case 9 -> nonaktifkanKelas();
+                case 10 -> System.out.println("\nTerima kasih telah menggunakan sistem ini. Sampai jumpa!");
                 default -> {
                     if (pilihan != 0)
-                        System.out.println("Pilihan tidak valid. Silakan pilih 1-8.");
+                        System.out.println("Pilihan tidak valid. Silakan pilih 1-10.");
                 }
 
             }
             System.out.println();
-        } while (pilihan != 8);
+        } while (pilihan != 10);
         {
             scanner.close();
         }
@@ -265,6 +271,67 @@ public class Main {
             System.out.println("─────────────────────────────────────────────────");
         }
     }
+        // Menambah Kelas Baru
+    public static void tambahKelasBaru() {
+        System.out.println("\n=== TAMBAH KELAS BARU ===");
+        System.out.print("Kode Kelas (contoh: FIS-02): ");
+        String kode = scanner.nextLine().trim().toUpperCase();
+
+        for (Kelas k : daftarSemuaKelas) {
+            if (k.getkodeKelas().equalsIgnoreCase(kode)) {
+                System.out.println("Kode kelas sudah digunakan!");
+                return;
+            }
+        }
+
+        System.out.print("Nama Kelas       : ");
+        String nama = scanner.nextLine();
+        System.out.print("Nama Pengajar    : ");
+        String pengajar = scanner.nextLine();
+        System.out.print("Harga Kelas (Rp) : ");
+        int harga = scanner.nextInt();
+        scanner.nextLine();
+
+        Kelas kelasBaru = new Kelas(kode, nama, pengajar, harga);
+        daftarKelasTersedia.add(kelasBaru);
+        daftarSemuaKelas.add(kelasBaru);
+
+        System.out.println("Kelas berhasil ditambahkan dan langsung aktif!");
+    }
+
+    // Menonaktifkan Kelas
+    public static void nonaktifkanKelas() {
+        System.out.println("\n=== NONAKTIFKAN KELAS ===");
+        if (daftarKelasTersedia.isEmpty()) {
+            System.out.println("Tidak ada kelas yang aktif.");
+            return;
+        }
+
+        tampilkanDaftarKelas();
+        System.out.print("\nMasukkan Kode Kelas yang ingin dinonaktifkan: ");
+        String kode = scanner.nextLine().trim().toUpperCase();
+
+        Kelas target = null;
+        for (Kelas k : daftarKelasTersedia) {
+            if (k.getkodeKelas().equalsIgnoreCase(kode)) {
+                target = k;
+                break;
+            }
+        }
+
+        if (target == null) {
+            System.out.println("Kelas tidak ditemukan atau sudah tidak aktif.");
+            return;
+        }
+
+        if (!target.getDaftarSiswa().isEmpty()) {
+            System.out.println("GAGAL! Kelas ini masih memiliki " + target.getDaftarSiswa().size() + " siswa.");
+            return;
+        }
+
+        daftarKelasTersedia.remove(target);
+        System.out.println("Kelas \"" + target.getnamaKelas() + "\" berhasil dinonaktifkan!");
+    }
 
     // Fungsi Helper untuk membantu proses pencarian
     private static Siswa findSiswaById(String id) {
@@ -306,5 +373,7 @@ public class Main {
         for (Kelas k : kelasList) {
             daftarKelasTersedia.add(k);
         }
+        daftarSemuaKelas.addAll(daftarKelasTersedia);
     }
+    
 }
