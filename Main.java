@@ -15,6 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         dataDummy();
+        dataSiswa();
         int pilihan = 0;
 
         System.out.println("==== Selamat Datang di kelas Les TI A ====");
@@ -248,6 +249,7 @@ public class Main {
             System.out.printf("| %-10s | %-20s | %-15s |\n", s.getidSiswa(), s.getnamaSiswa(), s.getnoTelpon());
         }
         System.out.println("─────────────────────────────────────────────────");
+        lihatDaftarSiswaPerKelas();
     }
 
     // Menampilkan daftar siswa per kelas
@@ -320,6 +322,22 @@ public class Main {
 
         for (Kelas k : kelasList) {
             daftarKelasTersedia.add(k);
+        }
+    }
+    private static void dataSiswa() {
+        // === 5 SISWA ===
+        Siswa[] siswaList = {
+                new Siswa("S-001", "Andi", "081234567890"),
+                new Siswa("S-002", "Budi", "082345678901"),
+                new Siswa("S-003", "Citra", "083456789012"),
+                new Siswa("S-004", "Dewi", "084567890123"),
+                new Siswa("S-005", "Eka", "085678901234"),
+                new Siswa("S-006", "Fajar", "086789012345"),
+                new Siswa("S-007", "Gina", "087890123456")
+        };
+
+        for (Siswa s : siswaList) {
+            daftarSiswa.add(s);
         }
     }
 }
