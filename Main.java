@@ -1,4 +1,9 @@
 import java.util.Scanner;
+
+import Sistemles.Kelas;
+import Sistemles.Siswa;
+import Sistemles.Transaksi;
+
 import java.util.InputMismatchException;
 import java.util.ArrayList;
 
@@ -95,9 +100,11 @@ public class Main {
 
         System.out.println("Siswa Baru Berhasil Ditambahkan!");
         System.out.println("ID Siswa: " + idSiswa + "| Nama: " + nama);
+        pendaftaranKelas(); 
         return siswaBaru;
+    }     
 
-    }
+    
 
     // Menambahkan Siswa Kekelas
     public static void pendaftaranKelas() {
@@ -133,6 +140,14 @@ public class Main {
         System.out.println("Kelas: " + kelas.getnamaKelas());
         System.out.println("Total Tagihan: Rp" + String.format("%,-10d", kelas.getharga()));
         System.out.println("ID Transaksi: " + idTrx);
+
+        System.out.print("apakah ingin menambahkan kelas lagi? y/n: ");
+        String menambahkelas = scanner.nextLine();
+        if (menambahkelas.equalsIgnoreCase("y")) {
+            pendaftaranKelas();
+        } else {
+            System.out.println("Pendaftaran kelas selesai.");
+        }
     }
 
     // Memproses Pembayaran yang belum Lunas

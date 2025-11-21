@@ -1,3 +1,4 @@
+package Sistemles;
 import java.util.ArrayList;
 
 public class Kelas {
@@ -17,12 +18,13 @@ public class Kelas {
     public String getpengajar() {return pengajar;}
     public Integer getharga() {return harga;}
     public ArrayList<Siswa> getDaftarSiswa() {return daftarSiswa;}
-    
+
 
     public void tambahSiswa(Siswa siswa) {
         if (!daftarSiswa.contains(siswa)) {
             daftarSiswa.add(siswa);
         }
     }
+   
 }
 

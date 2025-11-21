@@ -1,3 +1,4 @@
+package Sistemles;
 public class Transaksi {
     private String idTransaksi, idSiswa, kodeKelas, statusBayar;
     private double totalBayar;

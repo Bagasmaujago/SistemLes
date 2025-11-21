@@ -1,3 +1,4 @@
+package Sistemles;
 public class Siswa {
     private String idSiswa, namaSiswa, noTelpon;
 
