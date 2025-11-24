@@ -25,11 +25,10 @@ public class Main {
             System.out.println("4. Proses Pembayaran");
             System.out.println("5. Cek Riwayat Transaksi");
             System.out.println("6. Lihat Daftar Semua Siswa");
-            System.out.println("7. Lihat Daftar Siswa Perkelas");
-            System.out.println("8. Tambah Kelas Baru");
-            System.out.println("9. Nonaktifkan Kelas");
-            System.out.println("10. Keluar");
-            System.out.print("Pilih Menu 1-10!: ");
+            System.out.println("7. Tambah Kelas Baru");
+            System.out.println("8. Nonaktifkan Kelas");
+            System.out.println("9. Keluar");
+            System.out.print("Pilih Menu 1-9!: ");
 
             // Mengatasi jika menginput bukan angka
             try {
@@ -49,18 +48,17 @@ public class Main {
                 case 4 -> prosesPembayaran();
                 case 5 -> lihatRiwayatTransaksi();
                 case 6 -> lihatDaftarSemuaSiswa();
-                case 7 -> lihatDaftarSiswaPerKelas();
-                case 8 -> tambahKelasBaru();
-                case 9 -> nonaktifkanKelas();
-                case 10 -> System.out.println("\nTerima kasih telah menggunakan sistem ini. Sampai jumpa!");
+                case 7 -> tambahKelasBaru();
+                case 8 -> nonaktifkanKelas();
+                case 9 -> System.out.println("\nTerima kasih telah menggunakan sistem ini. Sampai jumpa!");
                 default -> {
                     if (pilihan != 0)
-                        System.out.println("Pilihan tidak valid. Silakan pilih 1-10.");
+                        System.out.println("Pilihan tidak valid. Silakan pilih 1-9.");
                 }
 
             }
             System.out.println();
-        } while (pilihan != 10);
+        } while (pilihan != 9);
         {
             scanner.close();
         }
@@ -93,17 +91,20 @@ public class Main {
         String nama = scanner.nextLine();
         System.out.print("Masukkan Nomor Telpon: ");
         String noTelp = scanner.nextLine();
-
-        // Membuat Id Siswa baru secara otomatis
+    
+        System.out.print("Masukkan Tahun Siswa (contoh: 2024): ");
+        int tahun = scanner.nextInt();
+        scanner.nextLine();
+    
         String idSiswa = "S-" + String.format("%03d", daftarSiswa.size() + 1);
-        Siswa siswaBaru = new Siswa(idSiswa, nama, noTelp);
+    
+        Siswa siswaBaru = new Siswa(idSiswa, nama, noTelp, tahun);
         daftarSiswa.add(siswaBaru);
-
+    
         System.out.println("Siswa Baru Berhasil Ditambahkan!");
-        System.out.println("ID Siswa: " + idSiswa + "| Nama: " + nama);
         return siswaBaru;
-
     }
+    
 
     // Menambahkan Siswa Kekelas
     public static void pendaftaranKelas() {
@@ -241,6 +242,29 @@ public class Main {
         System.out.println("─────────────────────────────────────────────────");
     }
 
+    public static void menuLihatSiswa() {
+        while (true) {
+            System.out.println("\n=== MENU LIHAT DATA SISWA ===");
+            System.out.println("1. Lihat Semua Siswa");
+            System.out.println("2. Lihat Siswa Per Kelas");
+            System.out.println("3. Lihat Siswa Berdasarkan Tahun");
+            System.out.println("0. Kembali");
+            System.out.print("Pilih menu: ");
+    
+            int p = scanner.nextInt();
+            scanner.nextLine();
+    
+            switch (p) {
+                case 1 -> lihatDaftarSemuaSiswa();
+                case 2 -> lihatDaftarSiswaPerKelas();
+                case 3 -> lihatDaftarSiswaPerTahun();
+                case 0 -> { return; }
+                default -> System.out.println("Pilihan tidak valid!");
+            }
+        }
+    }
+    
+
     // Menampilkan daftar siswa per kelas
     public static void lihatDaftarSiswaPerKelas() {
         System.out.println("\n=== DAFTAR SISWA PER KELAS ===");
@@ -298,6 +322,34 @@ public class Main {
 
         System.out.println("Kelas berhasil ditambahkan dan langsung aktif!");
     }
+    
+    public static void lihatDaftarSiswaPerTahun() {
+        System.out.print("\nMasukkan tahun siswa: ");
+        int tahun = scanner.nextInt();
+        scanner.nextLine();
+    
+        System.out.println("\n=== DAFTAR SISWA TAHUN " + tahun + " ===");
+        boolean ditemukan = false;
+    
+        System.out.println("─────────────────────────────────────────────────");
+        System.out.printf("| %-10s | %-20s | %-15s |\n", "ID", "Nama", "Telepon");
+        System.out.println("─────────────────────────────────────────────────");
+    
+        for (Siswa s : daftarSiswa) {
+            if (s.getTahun() == tahun) {
+                System.out.printf("| %-10s | %-20s | %-15s |\n",
+                        s.getidSiswa(), s.getnamaSiswa(), s.getnoTelpon());
+                ditemukan = true;
+            }
+        }
+    
+        if (!ditemukan) {
+            System.out.println("Tidak ada siswa pada tahun tersebut.");
+        }
+    
+        System.out.println("─────────────────────────────────────────────────");
+    }
+    
 
     // Menonaktifkan Kelas
     public static void nonaktifkanKelas() {
