@@ -144,7 +144,7 @@ public class Main {
         System.out.println("Kelas berhasil ditambahkan dan langsung aktif!");
     }
 
-    // 3. Nonaktifkan Kelas
+    // 3. Nonaktifkan Kelas 
     public static void nonaktifkanKelas() {
         System.out.println("\n=== NONAKTIFKAN KELAS ===");
         if (daftarKelasTersedia.isEmpty()) {
@@ -168,17 +168,26 @@ public class Main {
             System.out.println("Kelas tidak ditemukan di daftar aktif.");
             return;
         }
-
+        // Cek jika ada siswa, beri peringatan
         if (!target.getDaftarSiswa().isEmpty()) {
-            System.out.println("GAGAL! Kelas ini masih memiliki " + target.getDaftarSiswa().size() + " siswa.");
-            System.out.println("Kelas tidak boleh dinonaktifkan jika masih ada siswa.");
-            return;
+            System.out.println("\n[PERINGATAN!]");
+            System.out.println("Kelas ini masih memiliki " + target.getDaftarSiswa().size() + " siswa aktif.");
+            System.out.println("Siswa yang ada di dalam kelas ini tidak akan dihapus datanya,");
+            System.out.println("tetapi kelas tidak akan muncul lagi di menu pendaftaran.");
+            
+            System.out.print("Apakah Anda yakin tetap ingin menonaktifkan? (y/n): ");
+            String konfirmasi = scanner.nextLine();
+
+            if (!konfirmasi.equalsIgnoreCase("y")) {
+                System.out.println("Proses dibatalkan.");
+                return;
+            }
         }
+        // =========================
 
-        daftarKelasTersedia.remove(target); // Hanya hapus dari daftarTersedia, tapi tetap ada di daftarSemuaKelas
-        System.out.println("Kelas \"" + target.getnamaKelas() + "\" berhasil dinonaktifkan (Diarsipkan).");
+        daftarKelasTersedia.remove(target); // Hapus dari daftar tersedia (tapi masih ada di database master)
+        System.out.println("Kelas \"" + target.getnamaKelas() + "\" BERHASIL dinonaktifkan!");
     }
-
     // 4. Aktifkan Kembali Kelas 
     public static void aktifkanKelasKembali() {
         System.out.println("\n=== AKTIFKAN KEMBALI KELAS ===");
