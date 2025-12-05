@@ -6,7 +6,7 @@ public class Main {
     static ArrayList<Kelas> daftarKelasTersedia = new ArrayList<>();
     static ArrayList<Siswa> daftarSiswa = new ArrayList<>();
     static ArrayList<Transaksi> riwayatTransaksi = new ArrayList<>();
-    static ArrayList<Kelas> daftarSemuaKelas = new ArrayList<>();
+    static ArrayList<Kelas> daftarSemuaKelas = new ArrayList<>(); 
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -47,7 +47,7 @@ public class Main {
                 case 5 -> lihatRiwayatTransaksi();
                 case 6 -> menuLihatSiswa();
                 case 7 -> lihatKelasYangDiikuti();
-                case 8 -> menuModifikasiKelas(); 
+                case 8 -> menuModifikasiKelas(); // PANGGIL SUB-MENU BARU
                 case 9 -> System.out.println("\nTerima kasih telah menggunakan sistem ini. Sampai jumpa!");
                 default -> {
                     if (pilihan != 0)
@@ -55,17 +55,16 @@ public class Main {
                 }
             }
         } while (pilihan != 9);
-
+        
         scanner.close();
     }
-
     public static void menuModifikasiKelas() {
         int subPilihan = 0;
         do {
             System.out.println("\n=== MENU MODIFIKASI KELAS ===");
             System.out.println("1. Tambah Kelas Baru");
             System.out.println("2. Nonaktifkan Kelas");
-            System.out.println("3. Aktifkan Kembali Kelas"); 
+            System.out.println("3. Aktifkan Kembali Kelas"); // FITUR BARU
             System.out.println("0. Kembali ke Menu Utama");
             System.out.print("Pilih menu: ");
 
@@ -87,7 +86,6 @@ public class Main {
             }
         } while (subPilihan != 0);
     }
-
     // 1. Menampilkan daftar Kelas yang Tersedia (Hanya yang Aktif)
     public static void tampilkanDaftarKelas() {
         System.out.println("\n===== DAFTAR KELAS YANG TERSEDIA =====");
@@ -118,8 +116,7 @@ public class Main {
             if (k.getkodeKelas().equalsIgnoreCase(kode)) {
                 System.out.println("Gagal: Kode kelas sudah terdaftar di database!");
                 if (!daftarKelasTersedia.contains(k)) {
-                    System.out.println(
-                            "Tips: Kelas ini sedang NONAKTIF. Gunakan menu 'Aktifkan Kembali Kelas' untuk menggunakannya.");
+                    System.out.println("Tips: Kelas ini sedang NONAKTIF. Gunakan menu 'Aktifkan Kembali Kelas' untuk menggunakannya.");
                 }
                 return;
             }
@@ -182,7 +179,7 @@ public class Main {
         System.out.println("Kelas \"" + target.getnamaKelas() + "\" berhasil dinonaktifkan (Diarsipkan).");
     }
 
-    // 4. Aktifkan Kembali Kelas
+    // 4. Aktifkan Kembali Kelas 
     public static void aktifkanKelasKembali() {
         System.out.println("\n=== AKTIFKAN KEMBALI KELAS ===");
         // Cari kelas yang ada di daftarSemuaKelas TAPI TIDAK ADA di daftarKelasTersedia
@@ -223,10 +220,9 @@ public class Main {
             System.out.println("Kode kelas tidak valid atau sudah aktif.");
         }
     }
-
-    // Membuat Form Registrasi Siswa Baru 
+    // Membuat Form Registrasi Siswa Baru
     public static Siswa registrasiSiswaBaru() {
-        System.out.println("\n====== REGISTRASI SISWA BARU =========");
+        System.out.println("====== REGISTRASI SISWA BARU =========");
         System.out.print("Masukkan Nama Siswa Baru: ");
         String nama = scanner.nextLine();
         System.out.print("Masukkan Nomor Telpon: ");
@@ -236,8 +232,8 @@ public class Main {
         int tahun = 0;
         try {
             tahun = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            tahun = 2024; 
+        } catch(InputMismatchException e) {
+            tahun = 2024; // default
         } finally {
             scanner.nextLine();
         }
@@ -247,18 +243,7 @@ public class Main {
         Siswa siswaBaru = new Siswa(idSiswa, nama, noTelp, tahun);
         daftarSiswa.add(siswaBaru);
 
-        // === BAGIAN INI DITAMBAHKAN UNTUK MENAMPILKAN ID ===
-        System.out.println("\n-----------------------------------------");
-        System.out.println("           REGISTRASI BERHASIL!          ");
-        System.out.println("-----------------------------------------");
-        System.out.printf(" Nama     : %s\n", nama);
-        System.out.printf(" ID SISWA : %s  <-- GUNAKAN INI\n", idSiswa);
-        System.out.println("-----------------------------------------");
-        System.out.println("PENTING: Gunakan ID SISWA di atas untuk");
-        System.out.println("melakukan Pendaftaran Kelas di Menu 3.");
-        System.out.println("-----------------------------------------");
-        // ===================================================
-
+        System.out.println("Siswa Baru Berhasil Ditambahkan!");
         return siswaBaru;
     }
 
@@ -370,9 +355,8 @@ public class Main {
                 "─────────────────────────────────────────────────────────────────────────────────────────────");
         for (Transaksi t : riwayatTransaksi) {
             Siswa s = findSiswaById(t.getIdSiswa());
-            // Gunakan findKelasByKodeDiSemua() jika kelas sudah dinonaktifkan agar nama
-            // tetap muncul
-            Kelas k = findKelasByKodeInAll(t.getKodeKelas());
+            // Gunakan findKelasByKodeDiSemua() jika kelas sudah dinonaktifkan agar nama tetap muncul
+            Kelas k = findKelasByKodeInAll(t.getKodeKelas()); 
             System.out.printf("| %-10s | %-15s | %-20s | Rp%,-10.0f | %-12s |\n",
                     t.getIdTransaksi(),
                     s != null ? s.getnamaSiswa() : "N/A",
@@ -411,9 +395,8 @@ public class Main {
 
             int p = -1;
             try {
-                p = scanner.nextInt();
-            } catch (Exception e) {
-            }
+                 p = scanner.nextInt();
+            } catch (Exception e) {}
             scanner.nextLine();
 
             switch (p) {
@@ -463,9 +446,8 @@ public class Main {
         System.out.print("\nMasukkan tahun siswa: ");
         int tahun = 0;
         try {
-            tahun = scanner.nextInt();
-        } catch (Exception e) {
-        }
+             tahun = scanner.nextInt();
+        } catch(Exception e) {}
         scanner.nextLine();
 
         System.out.println("\n=== DAFTAR SISWA TAHUN " + tahun + " ===");
@@ -591,24 +573,24 @@ public class Main {
 
         // === 2. MEMBUAT 60 NAMA SISWA ===
         String[] namaSiswa = {
-                // 1-10
-                "Andi Pratama", "Siti Rahma", "Dina Lestari", "Fajar Aditya", "Riko Prasetyo",
-                "Melisa Handayani", "Bagus Firmansyah", "Rani Octavia", "Aldi Kurniawan", "Nia Safitri",
-                // 11-20
-                "Rafi Ramadhan", "Putri Anindya", "Kevin Saputra", "Yulia Febriani", "Dimas Herlambang",
-                "Zahra Aulia", "Farhan Nur", "Intan Maharani", "Steven Hartanto", "Laila Amalia",
-                // 21-30
-                "Mira", "Jordan Halim", "Sofia Mei", "Rizky Akbar", "Clara Widjaya",
-                "Hamzah Karim", "Nadia Putri", "Theo Januar", "Ayunda Kinasih", "Rehan Ardi",
-                // 31-40
-                "Luthfi Ramli", "Shafira Hanum", "Adnan Yusuf", "Karina Dewi", "William Seno",
-                "Fitri Andriana", "Genta Mahesa", "Nabila Kumalasari", "Arya Wirawan", "Selin Oktaviani",
-                // 41-50
-                "Arman Putra", "Vina Kharisma", "Dewa Hartono", "Sheila Putu", "Ferry Nugraha",
-                "Hanna Rosalina", "Yoga Pradana", "Laras Nirmala", "Denny Alvaro", "Fadhila Khairun",
-                // 51-60
-                "Bryan Jonathan", "Citra Indah", "Damar Wibowo", "Sherly Anggraini", "Aldi Firmanto",
-                "Yessi Komalasari", "Rangga Setiawan", "Fira Zahra", "Neo Pratomo", "Revi Andrea"
+            // 1-10
+            "Andi Pratama", "Siti Rahma", "Dina Lestari", "Fajar Aditya", "Riko Prasetyo",
+            "Melisa Handayani", "Bagus Firmansyah", "Rani Octavia", "Aldi Kurniawan", "Nia Safitri",
+            // 11-20
+            "Rafi Ramadhan", "Putri Anindya", "Kevin Saputra", "Yulia Febriani", "Dimas Herlambang",
+            "Zahra Aulia", "Farhan Nur", "Intan Maharani", "Steven Hartanto", "Laila Amalia",
+            // 21-30
+            "Mira", "Jordan Halim", "Sofia Mei", "Rizky Akbar", "Clara Widjaya",
+            "Hamzah Karim", "Nadia Putri", "Theo Januar", "Ayunda Kinasih", "Rehan Ardi",
+            // 31-40
+            "Luthfi Ramli", "Shafira Hanum", "Adnan Yusuf", "Karina Dewi", "William Seno",
+            "Fitri Andriana", "Genta Mahesa", "Nabila Kumalasari", "Arya Wirawan", "Selin Oktaviani",
+            // 41-50
+            "Arman Putra", "Vina Kharisma", "Dewa Hartono", "Sheila Putu", "Ferry Nugraha",
+            "Hanna Rosalina", "Yoga Pradana", "Laras Nirmala", "Denny Alvaro", "Fadhila Khairun",
+            // 51-60
+            "Bryan Jonathan", "Citra Indah", "Damar Wibowo", "Sherly Anggraini", "Aldi Firmanto",
+            "Yessi Komalasari", "Rangga Setiawan", "Fira Zahra", "Neo Pratomo", "Revi Andrea"
         };
 
         // === 3. INPUT SISWA DENGAN TAHUN BERBEDA ===
