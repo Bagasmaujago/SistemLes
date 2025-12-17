@@ -172,8 +172,6 @@ public class Main {
         if (!target.getDaftarSiswa().isEmpty()) {
             System.out.println("\n[PERINGATAN!]");
             System.out.println("Kelas ini masih memiliki " + target.getDaftarSiswa().size() + " siswa aktif.");
-            System.out.println("Siswa yang ada di dalam kelas ini tidak akan dihapus datanya,");
-            System.out.println("tetapi kelas tidak akan muncul lagi di menu pendaftaran.");
             
             System.out.print("Apakah Anda yakin tetap ingin menonaktifkan? (y/n): ");
             String konfirmasi = scanner.nextLine();
