@@ -251,6 +251,7 @@ public class Main {
         daftarSiswa.add(siswaBaru);
 
         System.out.println("Siswa Baru Berhasil Ditambahkan!");
+        System.out.println("id Siswa: "+ idSiswa);
         return siswaBaru;
     }
 
